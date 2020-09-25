@@ -6,7 +6,7 @@ import { changeInput } from '../actions';
 export default function useForm() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const state = useSelector(state => state);
+  const { q, totalItems, startIndex} = useSelector(state => state);
 
   function handleChange(q) {
     dispatch(changeInput({ q }));
@@ -16,7 +16,7 @@ export default function useForm() {
     // 페이지 이동
     const path = stringifyUrl({
         url: '/result',
-        query: state
+        query: { q, totalItems, startIndex}
     });
 
     history.push(path);

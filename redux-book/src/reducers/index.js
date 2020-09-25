@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { FETCH_SUCCESS, FETCH_FAILTURE, CHANGE_INPUT} from '../actions';
+import { FETCH_LOADING, FETCH_SUCCESS, FETCH_FAILTURE, CHANGE_INPUT} from '../actions';
 
 export const Status = {
   Idel: 'idle',
@@ -24,15 +24,26 @@ export default handleActions({
       q: action.payload.q,
     }
   },
+  [FETCH_LOADING]: (state, action) => {
+    return {
+      ...state,
+      status: Status.Loading,
+    }
+  },
   [FETCH_SUCCESS]: (state, action) => {
-   console.log('((', action.payload.items)
+   const { items, totalItems } = action.payload;
    return {
      ...state,
-     items: action.payload.items,
+     status: Status.Sucess,
+     items: state.items.concat(items),
+     startIndex: state.startIndex + items.length,
+     totalItems: totalItems,
    }
-   // 페이지 이동..!
   },
   [FETCH_FAILTURE]: (state, payload) => {
-    console.log(payload)
+    return {
+      ...state,
+      status: Status.Failture,
+    }
   },
 }, initialState);
