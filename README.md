@@ -1,2 +1,2 @@
-# react-layout
-react layout example
+# redux-book
+redux-book example
